@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Countdown Timer</title>
+<style>
+body { font-family: Arial; text-align: center; padding: 50px; background: #f4f4f4;}
+#timer { font-size: 3em; margin: 20px 0; }
+.urgent { color: red; animation: blink 1s infinite; }
+@keyframes blink { 0%,50%,100% {opacity:1;} 25%,75% {opacity:0;} }
+</style>
+</head>
+<body>
+<h1>Đồng hồ đếm ngược 10 phút</h1>
+<div id="timer"></div>
+
+<script>
+let time = 10 * 60; // 10 phút
+const timerEl = document.getElementById('timer');
+
+function updateTimer(){
+  const m = Math.floor(time/60);
+  const s = time%60;
+  timerEl.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  if(time <= 60){
+    timerEl.classList.add('urgent'); // animation khi <1 phút
+  }
+  if(time <= 0){
+    clearInterval(interval);
+    alert('Hết thời gian!');
+  }
+  time--;
+}
+
+const interval = setInterval(updateTimer, 1000);
+updateTimer(); // hiển thị ban đầu
+</script>
+</body>
+</html>

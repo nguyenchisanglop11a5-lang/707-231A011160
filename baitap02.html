@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Form đăng ký</title>
+<style>
+body { font-family: Arial; padding: 20px; background: #f9f9f9;}
+form { max-width: 400px; margin: auto; background: #fff; padding: 20px; border-radius: 5px; box-shadow:0 2px 5px rgba(0,0,0,0.1);}
+input, label { display: block; width: 100%; margin-bottom: 10px;}
+input[type="checkbox"] { width: auto; }
+button { padding: 10px; background: #333; color: #fff; border: none; cursor: pointer;}
+button:hover { background: #555; }
+.error { color: red; }
+.success { color: green; }
+</style>
+</head>
+<body>
+<h1>Form đăng ký người dùng</h1>
+
+<form id="registerForm">
+  <label>Tên:
+    <input type="text" id="name" required>
+  </label>
+  <label>Email:
+    <input type="email" id="email" required>
+  </label>
+  <label>Mật khẩu:
+    <input type="password" id="password" required>
+  </label>
+  <label>
+    <input type="checkbox" id="agree"> Đồng ý điều khoản
+  </label>
+  <button type="submit">Đăng ký</button>
+  <div id="message"></div>
+</form>
+
+<script>
+// Validate email
+function isEmailValid(email){
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+// Validate password
+function isPasswordValid(pw){
+  return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(pw);
+}
+
+document.getElementById('registerForm').addEventListener('submit', e=>{
+  e.preventDefault();
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  const agree = document.getElementById('agree').checked;
+  const msg = document.getElementById('message');
+  
+  if(!isEmailValid(email)){
+    msg.textContent = 'Email không hợp lệ';
+    msg.className = 'error';
+    return;
+  }
+  if(!isPasswordValid(password)){
+    msg.textContent = 'Mật khẩu phải ít nhất 8 ký tự, có chữ hoa, thường và số';
+    msg.className = 'error';
+    return;
+  }
+  if(!agree){
+    msg.textContent = 'Bạn phải đồng ý điều khoản';
+    msg.className = 'error';
+    return;
+  }
+  // Lưu vào LocalStorage (an toàn cho dữ liệu cục bộ)
+  const user = {name,email,password};
+  localStorage.setItem('user', JSON.stringify(user));
+  msg.textContent = 'Đăng ký thành công!';
+  msg.className = 'success';
+  e.target.reset();
+});
+</script>
+</body>
+</html>

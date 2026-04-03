@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lý thuyết Lập trình Web</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 20px; background: #f4f4f4;}
+header { background: #333; color: #fff; padding: 10px 20px;}
+header h1 { margin: 0; font-size: 1.5em;}
+nav a { color: #fff; margin-right: 10px; text-decoration: none; }
+section { background: #fff; padding: 15px; margin: 15px 0; border-radius: 5px;}
+pre { background: #eee; padding: 10px; border-radius: 5px; overflow-x: auto;}
+</style>
+</head>
+<body>
+<header>
+  <h1>Lý thuyết Lập trình Web</h1>
+  <nav>
+    <a href="index.html">Trang chủ</a> |
+    <a href="baitap01.html">Bài tập 1</a> |
+    <a href="baitap02.html">Bài tập 2</a> |
+    <a href="baitap03.html">Bài tập 3</a> |
+    <a href="contact.html">Điểm danh</a>
+  </nav>
+</header>
+
+<main>
+<section>
+<h2>1. Sự khác biệt giữa <code>position: absolute</code> và <code>position: relative</code></h2>
+<p>
+<strong>position: relative</strong>: phần tử vẫn chiếm không gian trong flow bình thường của trang, nhưng có thể dịch chuyển so với vị trí gốc bằng <code>top/right/bottom/left</code>.  
+Dùng để điều chỉnh layout mà không phá vỡ cấu trúc chung, thích hợp với responsive design.
+</p>
+<pre>
+.container { position: relative; }
+.child { position: relative; top: 10px; left: 5px; }
+</pre>
+<p>
+<strong>position: absolute</strong>: phần tử được đặt chính xác so với phần tử cha gần nhất có position khác <code>static</code>. Nó không chiếm không gian trong flow bình thường.  
+Dùng cho tooltip, popup, menu overlay.
+</p>
+<pre>
+.container { position: relative; }
+.tooltip { position: absolute; top: 0; left: 0; }
+</pre>
+<p>
+<b>Ảnh hưởng khi deploy:</b> Absolute cần phần tử cha position tương ứng để responsive; Relative dễ thích ứng với các thiết bị khác nhau.
+</p>
+</section>
+
+<section>
+<h2>2. Quy trình đăng ký domain & cấu hình hosting</h2>
+<p>
+<strong>Quy trình:</strong>
+<ol>
+<li>Đăng ký domain: chọn nhà cung cấp domain (GoDaddy, Namecheap...)</li>
+<li>Chọn hosting: GitHub Pages, Netlify, Vercel (không cần server riêng)</li>
+<li>Cấu hình DNS: trỏ tên miền tới IP của hosting (A record, CNAME)</li>
+<li>Upload code website (HTML/CSS/JS) lên hosting</li>
+<li>Kiểm tra website trên domain</li>
+</ol>
+</p>
+<p><strong>Vai trò của DNS:</strong> Chuyển tên miền thành IP của server hosting, giúp trình duyệt truy cập website thông qua domain.</p>
+<p><strong>Công cụ hỗ trợ:</strong> GitHub Pages, Netlify. Chúng cho phép deploy nhanh mà không cần server riêng.</p>
+<p><strong>Rủi ro bảo mật:</strong> Nếu cấu hình sai DNS, website không truy cập được hoặc dễ bị tấn công; cần HTTPS, hạn chế lưu thông tin nhạy cảm trực tiếp trên JS.</p>
+</section>
+
+<section>
+<h2>3. So sánh <code>let</code>, <code>const</code> và <code>var</code> trong JavaScript</h2>
+<p>
+<ul>
+<li><strong>var</strong>: function-scope, hoisting lên đầu function, dễ gây lỗi khi truy cập trước khi khai báo.</li>
+<li><strong>let</strong>: block-scope, không hoisting, dùng khi giá trị thay đổi.</li>
+<li><strong>const</strong>: block-scope, không thể gán lại, dùng cho hằng số hoặc object/array không thay đổi tham chiếu.</li>
+</ul>
+</p>
+<p><strong>Ví dụ lỗi thường gặp:</strong></p>
+<pre>
+// var: hoisting
+console.log(x); // undefined
+var x = 5;
+
+// let: truy cập trước khai báo
+console.log(y); // ReferenceError
+let y = 10;
+
+// const: gán lại
+const z = 3;
+z = 4; // TypeError
+</pre>
+<p><strong>Debug:</strong> Sử dụng Chrome DevTools → Sources → Breakpoints → Console để theo dõi biến và lỗi hoisting.</p>
+</section>
+
+<section>
+<h2>4. Event Delegation trong JavaScript</h2>
+<p>
+Event Delegation là kỹ thuật gán 1 event listener lên phần tử cha để xử lý các phần tử con, đặc biệt hữu ích cho danh sách động (dynamic list).  
+Giúp giảm bộ nhớ, tăng hiệu suất và dễ quản lý sự kiện.
+</p>
+<pre>
+document.getElementById('list').addEventListener('click', e => {
+  if(e.target.tagName === 'LI'){
+    alert('Clicked: ' + e.target.textContent);
+  }
+});
+</pre>
+<p>
+Lợi ích khi kết hợp HTML/CSS:  
+- Không cần thêm listener cho từng item → giảm DOM overhead.  
+- Tối ưu CSS transitions/animations cho item động.  
+- Giữ layout responsive, dễ bảo trì.
+</p>
+</section>
+
+</main>
+</body>
+</html>

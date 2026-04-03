@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Danh sách sản phẩm</title>
+<style>
+body { font-family: Arial; padding: 20px; background: #f9f9f9;}
+header { margin-bottom: 20px; }
+nav a { margin-right: 10px; text-decoration: none; color: #333; }
+.container { display: flex; flex-wrap: wrap; gap: 15px; }
+.product { background: #fff; padding: 10px; border-radius: 5px; flex: 1 1 calc(20% - 15px); box-shadow: 0 2px 5px rgba(0,0,0,0.1);}
+.product img { width: 100%; border-radius: 5px;}
+input[type="text"] { padding: 5px; width: 200px; margin-bottom: 20px;}
+#error { color: red; margin-top: 10px; }
+@media(max-width: 768px){ .product { flex: 1 1 calc(50% - 15px); } }
+@media(max-width: 480px){ .product { flex: 1 1 100%; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Danh sách sản phẩm</h1>
+  </header>
+
+<input type="text" id="search" placeholder="Tìm sản phẩm...">
+<div id="error"></div>
+<div class="container" id="product-list"></div>
+
+<script>
+// Mảng sản phẩm
+const products = [
+  {name:"Laptop Dell", price:12000000, img:"https://lapvip.vn/upload/products/thumb_800x0/surface-laptop-7-13-snapdragon-x-elite-1720772609.jpg"},
+  {name:"Điện thoại iPhone", price:20000000, img:"https://cdn2.cellphones.com.vn/insecure/rs:fill:358:358/q:90/plain/https://cellphones.com.vn/media/catalog/product/i/p/iphone-16-pro-max_1.png"},
+  {name:"Tai nghe Bluetooth", price:300000, img:"https://didongviet.vn/_next/image/?url=https%3A%2F%2Fcdn-v2.didongviet.vn%2Ffiles%2Fproducts%2F2024%2F10%2F13%2F1%2F1731472631041_thumb_phuaa_kieaaaan.png&w=128&q=75"},
+  {name:"Bàn phím cơ", price:100000, img:"https://hanoicomputercdn.com/media/lib/01-06-2021/ban-phim-co-dareu-ek87-white-usb-led-xanh_0000_1.jpg"},
+  {name:"Chuột không dây", price:150000, img:"https://anphat.com.vn/media/product/53004_atk_x1_black__1_.webp"}
+];
+
+// Hàm render sản phẩm
+function renderProducts(list){
+  const container = document.getElementById('product-list');
+  container.innerHTML = '';
+  list.forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'product';
+    div.innerHTML = `<img src="${p.img}" alt="${p.name}">
+                     <h3>${p.name}</h3>
+                     <p>Giá: đ${p.price}</p>`;
+    container.appendChild(div);
+  });
+}
+
+// Xử lý tìm kiếm
+document.getElementById('search').addEventListener('input', e=>{
+  const term = e.target.value.toLowerCase();
+  const filtered = products.filter(p => p.name.toLowerCase().includes(term));
+  renderProducts(filtered);
+  document.getElementById('error').textContent = filtered.length === 0 ? 'Không tìm thấy sản phẩm!' : '';
+});
+
+// Render toàn bộ ban đầu
+renderProducts(products);
+</script>
+</body>
+</html>
